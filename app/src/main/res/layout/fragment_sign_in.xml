@@ -75,7 +75,7 @@
         </androidx.cardview.widget.CardView>
 
         <Button
-            android:id="@+id/signUpButtonRegistration"
+            android:id="@+id/signUpButtonLogin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="@dimen/button_register_sign_in_margin_horizontal"

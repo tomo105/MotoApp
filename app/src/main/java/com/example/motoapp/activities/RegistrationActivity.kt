@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.motoapp.databinding.ActivityRegistrationBinding
 
 import com.google.firebase.auth.FirebaseAuth
-
+                                    //                              LAUNCH ACTIVITY !!!!!!!!!!!!
 class RegistrationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegistrationBinding
     private val fbAuth = FirebaseAuth.getInstance()
