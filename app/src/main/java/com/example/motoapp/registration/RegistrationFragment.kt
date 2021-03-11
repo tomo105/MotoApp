@@ -38,7 +38,6 @@ class RegistrationFragment : BaseFragment() {
 
     private fun setupSignUpClick() {
 
-        Log.d(LOG_DEBUG, "elko w setup register")
         binding.signUpButtonRegister.setOnClickListener {
 
             val username = binding.usernameRegistration.text?.trim().toString()
@@ -47,7 +46,6 @@ class RegistrationFragment : BaseFragment() {
             val rPassword = binding.repeatPassRegistration.text?.trim().toString()
 
             // walidacja TODO !!!!!!!!!
-            Log.d(LOG_DEBUG, "elko")
             if (password == rPassword ) {
                 fbAuth.createUserWithEmailAndPassword(email,password)
                     .addOnSuccessListener { authRes ->

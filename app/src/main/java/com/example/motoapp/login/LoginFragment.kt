@@ -34,11 +34,7 @@ class LoginFragment : BaseFragment() {
     // logi
     private val LOG_DEBUG = "LOG_DEBUG"
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSignInBinding.inflate(layoutInflater, container, false)
         return binding.root
         //  return inflater.inflate(R.layout.fragment_sign_in, container, false)
@@ -47,11 +43,10 @@ class LoginFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d(LOG_DEBUG, "elko")
+
         setupLoginClick()
-        Log.d(LOG_DEBUG, "elko 2")
         setupRegistrationClick()
-        Log.d(LOG_DEBUG, "elko 3")
+
     }
 
     private fun setupRegistrationClick() {
@@ -70,6 +65,7 @@ class LoginFragment : BaseFragment() {
             fbAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener{ authRes ->
                     if (authRes.user != null)
+                        Log.d(LOG_DEBUG,"$email log in ")
                         startApp()                                                                                                 // fun from BaseFragment
                 }
                 .addOnFailureListener { exc ->

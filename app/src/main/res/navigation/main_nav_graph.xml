@@ -7,19 +7,16 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.motoapp.login.LoginFragment"
-        android:label="@string/first_fragment_label"
+        android:name="com.example.motoapp.home.HomeFragment"
+        android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
     </fragment>
-
-
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.motoapp.login.LoginFragment"
-        android:label="@string/second_fragment_label"
+        android:name="com.example.motoapp.proflie.ProfileFragment"
+        android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile" />
-
 </navigation>
