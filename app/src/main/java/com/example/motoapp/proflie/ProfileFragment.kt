@@ -16,6 +16,7 @@ class ProfileFragment : Fragment() {
     companion object {
         fun newInstance() = ProfileFragment()
     }
+
     // viewBinding
     private var _binding: FragmentProfileBinding? = null
     private val binding
@@ -26,7 +27,11 @@ class ProfileFragment : Fragment() {
     //private lateinit var viewModel: ProfileViewModel
     private val profileVM by viewModels<ProfileViewModel>()                                                                                  // using delegate
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentProfileBinding.inflate(layoutInflater)
         Log.d(LOG_DEBUG, "witaj w profile fragment")
         return binding.root
@@ -34,14 +39,17 @@ class ProfileFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        profileVM.user.observe(viewLifecycleOwner, {user ->
+        profileVM.user.observe(viewLifecycleOwner, { user ->
             bindUserData(user)
         })
 
     }
 
     private fun bindUserData(user: User) {
-            Log.d(LOG_DEBUG, user.toString() )
+        Log.d(LOG_DEBUG, user.toString())
+        binding.usernameET.setText(user.name)
+        binding.userSurnameET.setText(user.surname)
+        binding.userEmailET.setText(user.email)
     }
 
 
