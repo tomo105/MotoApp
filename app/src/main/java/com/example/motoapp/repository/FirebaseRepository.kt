@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import com.example.motoapp.data.Car
 import com.example.motoapp.data.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 
@@ -41,7 +43,8 @@ class FirebaseRepository {
         cloud.collection("cars")
             .get()
             .addOnSuccessListener {
-                val car = it.toObjects(Car::class.java)                                                // map to our class User
+                val car =
+                    it.toObjects(Car::class.java)                                                // map to our class User
                 Log.d(LOG_DEBUG, car.toString())
                 cloudResult.postValue(car)                                                             // set our liveData
             }
@@ -51,5 +54,56 @@ class FirebaseRepository {
         return cloudResult
     }
 
+    fun addFavCar(car: Car) {
+        cloud.collection("users")
+            .document(auth.currentUser?.uid!!)
+            .update(
+                "favCars",
+                FieldValue.arrayUnion(car.uid)
+            )                                       // add to array named favCars!!!! important !!!
+            .addOnSuccessListener {
+                Log.d(LOG_DEBUG, "Added to fav cars")
+            }
+            .addOnFailureListener {
+                Log.d(LOG_DEBUG, it.message.toString())
+            }
 
+    }
+
+    fun removeFavCar(car: Car) {
+        cloud.collection("users")
+            .document(auth.currentUser?.uid!!)
+            .update(
+                "favCars",
+                FieldValue.arrayRemove(car.uid)
+            )                                       // add to array named favCars!!!! important !!!
+            .addOnSuccessListener {
+                Log.d(LOG_DEBUG, "Added to fav cars")
+            }
+            .addOnFailureListener {
+                Log.d(LOG_DEBUG, it.message.toString())
+            }
+
+    }
+
+    fun getFavCar(list: List<String>?): LiveData<List<Car>> {
+
+        val carListResult = MutableLiveData<List<Car>>();
+
+        if (!list.isNullOrEmpty()) {
+            cloud.collection("cars")
+                .whereIn("uid", list)                                                               //  to check if id == list so we get document who matched !!!!!
+                .get()
+                .addOnSuccessListener {
+                    Log.d(LOG_DEBUG, "you get a list of fav cars")
+                    val resultList = it.toObjects(Car::class.java)
+                    carListResult.postValue(resultList)
+                }
+                .addOnFailureListener {
+                    Log.d(LOG_DEBUG, it.message.toString())
+                }
+        }
+
+        return carListResult
+    }
 }

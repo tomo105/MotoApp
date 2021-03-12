@@ -5,6 +5,7 @@ data class User(
     val name: String? = null,
     val surname: String? = null,
     val email: String? = null,
-    val fav_cars: List<String>? = null,
+    val favCars: List<String>? = null,
     val image: String? = null
 )
+                                                    // same name in data package and firebase repo !!!!!!

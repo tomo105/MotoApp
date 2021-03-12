@@ -8,14 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.motoapp.data.Car
 import com.example.motoapp.data.User
 import com.example.motoapp.databinding.FragmentProfileBinding
+import com.example.motoapp.home.CarAdapter
 
-class ProfileFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = ProfileFragment()
-    }
+class ProfileFragment : Fragment(), CarAdapter.OnCarItemLongClick{
 
     // viewBinding
     private var _binding: FragmentProfileBinding? = null
@@ -27,11 +26,16 @@ class ProfileFragment : Fragment() {
     //private lateinit var viewModel: ProfileViewModel
     private val profileVM by viewModels<ProfileViewModel>()                                                                                  // using delegate
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    private val adapter = CarAdapter(this)
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.recyclerViewFavCars.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewFavCars.adapter = adapter
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentProfileBinding.inflate(layoutInflater)
         Log.d(LOG_DEBUG, "witaj w profile fragment")
         return binding.root
@@ -41,6 +45,14 @@ class ProfileFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         profileVM.user.observe(viewLifecycleOwner, { user ->
             bindUserData(user)
+        })
+
+        profileVM.favCars.observe( viewLifecycleOwner, { listCars ->
+            listCars?.let{
+                Log.d(LOG_DEBUG, listCars.toString())
+                adapter.setCars(it)
+            }
+
         })
 
     }
@@ -56,6 +68,11 @@ class ProfileFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onCarLongClick(car: Car, position: Int) {                      //remove from  fav car List on long item click
+          profileVM.removeFavCars(car)
+          adapter.removeCar(car, position)
     }
 
 }

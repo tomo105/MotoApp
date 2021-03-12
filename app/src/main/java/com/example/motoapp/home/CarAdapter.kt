@@ -17,6 +17,10 @@ class CarAdapter(private val listener: OnCarItemLongClick) : RecyclerView.Adapte
         carsList.addAll(list)
         notifyDataSetChanged()                                                                              //inform adapter about changing data
     }
+    fun removeCar(car : Car, position: Int) {
+        carsList.remove(car)
+        notifyItemRemoved(position)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarViewHolder {
         val binding = ListRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
