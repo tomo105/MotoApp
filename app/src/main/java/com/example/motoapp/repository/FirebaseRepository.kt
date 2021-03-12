@@ -88,7 +88,7 @@ class FirebaseRepository {
 
     fun getFavCar(list: List<String>?): LiveData<List<Car>> {
 
-        val carListResult = MutableLiveData<List<Car>>();
+        val carListResult = MutableLiveData<List<Car>>()
 
         if (!list.isNullOrEmpty()) {
             cloud.collection("cars")
@@ -105,5 +105,24 @@ class FirebaseRepository {
         }
 
         return carListResult
+    }
+
+    fun createNewUser(user :User) {
+        cloud.collection("users")
+            .document(user.uid!!)
+            .set(user)
+    }
+
+    fun editProfileData(map :Map<String,String>){
+        cloud.collection("users")
+            .document(auth.currentUser!!.uid)
+            .update(map)
+            .addOnSuccessListener {
+                Log.d(LOG_DEBUG, "Updated user info")
+            }
+            .addOnFailureListener {
+                Log.d(LOG_DEBUG, it.message.toString())
+            }
+
     }
 }

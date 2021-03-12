@@ -17,5 +17,8 @@ class ProfileViewModel : ViewModel() {
     fun removeFavCars(car : Car) {
         repository.removeFavCar(car)
     }
+    fun editProfileData(map : Map<String, String>) {
+        repository.editProfileData(map)
+    }
 
 }

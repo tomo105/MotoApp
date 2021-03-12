@@ -113,7 +113,6 @@
                 android:id="@+id/recycler_view_fav_cars"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="-9dp"
                 android:background="@android:color/transparent"
                 tools:listitem="@layout/list_row" />
 

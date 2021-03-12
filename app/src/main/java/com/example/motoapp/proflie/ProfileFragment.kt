@@ -1,6 +1,5 @@
 package com.example.motoapp.proflie
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -31,6 +30,7 @@ class ProfileFragment : Fragment(), CarAdapter.OnCarItemLongClick{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupSumbitDataClick()
         binding.recyclerViewFavCars.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewFavCars.adapter = adapter
     }
@@ -57,13 +57,6 @@ class ProfileFragment : Fragment(), CarAdapter.OnCarItemLongClick{
 
     }
 
-    private fun bindUserData(user: User) {
-        Log.d(LOG_DEBUG, user.toString())
-        binding.usernameET.setText(user.name)
-        binding.userSurnameET.setText(user.surname)
-        binding.userEmailET.setText(user.email)
-    }
-
 
     override fun onDestroy() {
         super.onDestroy()
@@ -74,5 +67,23 @@ class ProfileFragment : Fragment(), CarAdapter.OnCarItemLongClick{
           profileVM.removeFavCars(car)
           adapter.removeCar(car, position)
     }
+
+    private fun bindUserData(user: User) {
+        Log.d(LOG_DEBUG, user.toString())
+        binding.usernameET.setText(user.name)
+        binding.userSurnameET.setText(user.surname)
+        binding.userEmailET.setText(user.email)
+    }
+
+    private fun setupSumbitDataClick() {
+        binding.sumbitDataProfileButton.setOnClickListener {
+            val name = binding.usernameET.text.trim().toString()
+            val surname = binding.userSurnameET.text.trim().toString()
+
+            val map  = mapOf("name" to name, "surname" to surname)
+            profileVM.editProfileData(map)
+        }
+    }
+
 
 }

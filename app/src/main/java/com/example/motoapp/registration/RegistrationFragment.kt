@@ -5,7 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.example.motoapp.BaseFragment
+import com.example.motoapp.data.User
 import com.example.motoapp.databinding.FragmentSignUpBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -23,8 +25,13 @@ class RegistrationFragment : BaseFragment() {
     // firebase
     private var fbAuth = FirebaseAuth.getInstance()
 
+    private val regVM by viewModels<RegistrationViewModel>()                                                                                  // using delegate
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentSignUpBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -40,26 +47,32 @@ class RegistrationFragment : BaseFragment() {
 
         binding.signUpButtonRegister.setOnClickListener {
 
-            val username = binding.usernameRegistration.text?.trim().toString()
+           // val username = binding.usernameRegistration.text?.trim().toString()
             val email = binding.emailRegistration.text?.trim().toString()
-            val password = binding.passRegistration.text?.trim().toString()
-            val rPassword = binding.repeatPassRegistration.text?.trim().toString()
+            val pass = binding.passRegistration.text?.trim().toString()
+            val passConfirmed = binding.repeatPassRegistration.text?.trim().toString()
 
             // walidacja TODO !!!!!!!!!
-            if (password == rPassword ) {
-                fbAuth.createUserWithEmailAndPassword(email,password)
-                    .addOnSuccessListener { authRes ->
-                        if (authRes.user != null)
-                            startApp()
 
+            if (pass == passConfirmed) {
+                fbAuth.createUserWithEmailAndPassword(email, pass)
+                    .addOnSuccessListener { authRes ->
+                        if (authRes.user != null) {
+                            val user = User(authRes.user!!.uid, "", "", authRes.user!!.email, listOf())
+                            regVM.createNewUser(user)                                                                                             //  // add to cloud firestore db !!!
+                            startApp()
+                        }
                     }
-                    .addOnFailureListener {     exc ->
-                        Snackbar.make(requireView(), "Upss .. sth goes wrong with registration :/", Snackbar.LENGTH_SHORT)
+                    .addOnFailureListener { exc ->
+                        Snackbar.make(
+                            requireView(),
+                            "Upss .. sth goes wrong with registration :/",
+                            Snackbar.LENGTH_SHORT
+                        )
                             .show()
                         Log.d(LOG_DEBUG, exc.message.toString())
                     }
             }
-
 
 
         }
