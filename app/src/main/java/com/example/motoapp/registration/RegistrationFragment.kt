@@ -27,11 +27,7 @@ class RegistrationFragment : BaseFragment() {
 
     private val regVM by viewModels<RegistrationViewModel>()                                                                                  // using delegate
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
         _binding = FragmentSignUpBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -58,7 +54,7 @@ class RegistrationFragment : BaseFragment() {
                 fbAuth.createUserWithEmailAndPassword(email, pass)
                     .addOnSuccessListener { authRes ->
                         if (authRes.user != null) {
-                            val user = User(authRes.user!!.uid, "", "", authRes.user!!.email, listOf())
+                            val user = User(authRes.user!!.uid, false, "", "", authRes.user!!.email, listOf())
                             regVM.createNewUser(user)                                                                                             //  // add to cloud firestore db !!!
                             startApp()
                         }

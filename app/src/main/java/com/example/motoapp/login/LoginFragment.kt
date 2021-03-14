@@ -1,23 +1,17 @@
 package com.example.motoapp.login
 
-import android.content.Intent
+
 import android.os.Bundle
-import android.text.Layout
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.motoapp.BaseFragment
-import com.example.motoapp.R
-import com.example.motoapp.activities.MainActivity
-import com.example.motoapp.databinding.FragmentHomeBinding
 import com.example.motoapp.databinding.FragmentSignInBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 
 class LoginFragment : BaseFragment() {
 
@@ -33,6 +27,7 @@ class LoginFragment : BaseFragment() {
 
     // logi
     private val LOG_DEBUG = "LOG_DEBUG"
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSignInBinding.inflate(layoutInflater, container, false)
@@ -66,6 +61,8 @@ class LoginFragment : BaseFragment() {
                 .addOnSuccessListener{ authRes ->
                     if (authRes.user != null)
                         Log.d(LOG_DEBUG,"$email log in ")
+                  //val logUser =   loginVM.getUserInfo()
+               //     Log.d(LOG_DEBUG, "zalogowany user: ${logUser.value}")
                         startApp()                                                                                                 // fun from BaseFragment
                 }
                 .addOnFailureListener { exc ->

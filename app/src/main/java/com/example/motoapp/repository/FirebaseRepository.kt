@@ -29,6 +29,7 @@ class FirebaseRepository {
                 val user =
                     it.toObject(User::class.java)                                                // map to our class User
                 Log.d(LOG_DEBUG, user.toString())
+
                 cloudResult.postValue(user)                                                             // set our liveData
             }
             .addOnFailureListener {
@@ -37,6 +38,25 @@ class FirebaseRepository {
         return cloudResult
     }
 
+    fun getUserAdminInfo(): LiveData<Boolean> {
+        val cloudResult = MutableLiveData<Boolean>()
+        val uid = auth.currentUser?.uid
+
+        cloud.collection("users")
+            .document(uid!!)
+            .get()
+            .addOnSuccessListener {
+                val user =
+                    it.toObject(User::class.java)                                                // map to our class User
+                Log.d(LOG_DEBUG, user.toString())
+
+                cloudResult.postValue(user!!.admin)                                                             // set our liveData
+            }
+            .addOnFailureListener {
+                Log.d(LOG_DEBUG, it.message.toString())
+            }
+        return cloudResult
+    }
     fun getCars(): LiveData<List<Car>> {
         val cloudResult = MutableLiveData<List<Car>>()
 
@@ -53,6 +73,7 @@ class FirebaseRepository {
             }
         return cloudResult
     }
+
 
     fun addFavCar(car: Car) {
         cloud.collection("users")
@@ -73,10 +94,7 @@ class FirebaseRepository {
     fun removeFavCar(car: Car) {
         cloud.collection("users")
             .document(auth.currentUser?.uid!!)
-            .update(
-                "favCars",
-                FieldValue.arrayRemove(car.uid)
-            )                                       // add to array named favCars!!!! important !!!
+            .update("favCars", FieldValue.arrayRemove(car.uid))                                       // add to array named favCars!!!! important !!!
             .addOnSuccessListener {
                 Log.d(LOG_DEBUG, "Added to fav cars")
             }
