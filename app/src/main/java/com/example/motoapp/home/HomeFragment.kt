@@ -1,5 +1,6 @@
 package com.example.motoapp.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -8,6 +9,8 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.motoapp.R
+import com.example.motoapp.activities.MainActivity
+import com.example.motoapp.activities.RegistrationActivity
 import com.example.motoapp.data.Car
 import com.example.motoapp.databinding.FragmentHomeBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -47,7 +50,9 @@ class HomeFragment : Fragment(), CarAdapter.OnCarItemLongClick {
         when(item.itemId) {
             R.id.logout_action -> {
                 fbAuth.signOut()
-                requireActivity().finish()
+                // requireActivity().finish()
+                val intent = Intent(requireContext(), RegistrationActivity::class.java)
+                startActivity(intent)
             }
 
         }
