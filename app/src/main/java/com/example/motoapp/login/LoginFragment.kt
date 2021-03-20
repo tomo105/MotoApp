@@ -60,15 +60,13 @@ class LoginFragment : BaseFragment() {
             fbAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener{ authRes ->
                     if (authRes.user != null)
-                        Log.d(LOG_DEBUG,"$email log in ")
-                  //val logUser =   loginVM.getUserInfo()
-               //     Log.d(LOG_DEBUG, "zalogowany user: ${logUser.value}")
+                        Log.d(LOG_DEBUG,"$email logged in")
                         startApp()                                                                                                 // fun from BaseFragment
                 }
                 .addOnFailureListener { exc ->
                     Snackbar.make(requireView(), "Upss .. sth goes wrong with login :/", Snackbar.LENGTH_SHORT)
                         .show()
-                    Log.d(LOG_DEBUG, exc.message.toString())
+                    Log.d(LOG_DEBUG, "ERROR IN LOGIN: " + exc.message.toString())
                 }
         }
     }

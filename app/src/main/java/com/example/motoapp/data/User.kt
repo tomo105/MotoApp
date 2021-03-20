@@ -9,4 +9,4 @@ data class User(
     val favCars: List<String>? = null,
     val image: String? = null,
 )
-                                                    // same name in data package and firebase repo !!!!!!
+                                                    // same name in data package and firebase repo !!!!!! isAdmin is invalid and truncate in firebase to Admin !!!!

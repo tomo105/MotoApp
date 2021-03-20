@@ -14,11 +14,16 @@ class ProfileViewModel : ViewModel() {
         repository.getFavCar(it.favCars)
     }
 
-    fun removeFavCars(car : Car) {
+    fun removeFavCars(car: Car) {
         repository.removeFavCar(car)
     }
-    fun editProfileData(map : Map<String, String>) {
+
+    fun editProfileData(map: Map<String, String>) {
         repository.editProfileData(map)
+    }
+
+    fun uploadUserPhoto(bytes: ByteArray) {
+        repository.uploadUserPhoto(bytes)
     }
 
 }

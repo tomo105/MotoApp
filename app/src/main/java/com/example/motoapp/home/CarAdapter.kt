@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.motoapp.data.Car
 import com.example.motoapp.databinding.ListRowBinding
 
@@ -39,11 +40,11 @@ class CarAdapter(private val listener: OnCarItemLongClick) : RecyclerView.Adapte
             with(carsList[position]) {
                 binding.carName.text = name
                 binding.carProductionYear.text = productionYear
-                // binding.carImage
-                // car image TODO
+                Glide.with(holder.itemView)
+                    .load(image)
+                    .into(binding.carImage)
             }
         }
-
 
     }
 
